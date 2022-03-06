@@ -1,78 +1,109 @@
 <template>
-  <v-container>
+  <v-container class="pt-15">
     <div class="calendar">
       <div class="today-info">
-        <div class="month">{{nameMonth[today.month].substr(0,3)}}</div>
-        <div class="date">{{today.day}}</div>
-        <div class="day">{{today.name}}</div>
+        <div class="month">{{ nameMonth[today.month].substr(0, 3) }}</div>
+        <div class="date">{{ today.day }}</div>
+        <div class="day">{{ today.name }}</div>
       </div>
       <div
         :class="flip ? 'flip-all' : ''"
         v-for="(item, index) in 12"
         :key="index"
-        >
+      >
         <div class="flip-card-front">
-          <span class="title">{{nameMonth[index].substr(0,3)}}</span>
+          <span class="title">{{ nameMonth[index].substr(0, 3) }}</span>
           <div class="calendar-value">
-            <p>{{item}}</p>
+            <p>{{ item }}</p>
           </div>
         </div>
-        <div class="flip-card-back" @click="[year=2021-index, flip = !flip]">
-          <h1>{{2021-index}}</h1> 
+        <div
+          class="flip-card-back"
+          @click="[(year = year - index), (flip = !flip)]"
+        >
+          <h1>{{ year - index }}</h1>
         </div>
-      </div> 
+      </div>
       <div class="clock">
         <div class="clock__hour__container" style="transform: rotateZ(438deg);">
           <div class="clock__hour"></div>
         </div>
-        <div class="clock__minute__container" style="transform: rotateZ(219.2deg);">
+        <div
+          class="clock__minute__container"
+          style="transform: rotateZ(219.2deg);"
+        >
           <div class="clock__minute"></div>
         </div>
-        <div class="clock__second__container" style="transform: rotateZ(192deg);">
+        <div
+          class="clock__second__container"
+          style="transform: rotateZ(192deg);"
+        >
           <div class="clock__second"></div>
         </div>
         <div class="clock__dot"></div>
       </div>
       <div class="year-date" @click="flip = !flip">
-        <h1>{{year}}</h1>
-      </div>   
+        <h1>{{ year }}</h1>
+      </div>
+    </div>
+    <div class="text-center">
+      <v-btn
+        class="accent mt-15"
+        href="https://github.com/cdmngz/portfolio/tree/main/src/views/Calendar.vue"
+        target="_blank"
+        >view code
+      </v-btn>
     </div>
   </v-container>
 </template>
 
 <script>
-
 export default {
-  name: 'Calendar',
+  name: "Calendar",
   data: () => ({
     flip: false,
     today: {
       day: new Date().getDate(),
       month: new Date().getMonth(),
-      name: new Date().toLocaleDateString('es', { weekday: 'long' }),
+      name: new Date().toLocaleDateString("es", { weekday: "long" }),
       hour: new Date().getHours(),
-      minutes: new Date().getMinutes()
+      minutes: new Date().getMinutes(),
     },
     year: new Date().getFullYear(),
-    nameMonth: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+    nameMonth: [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre",
+    ],
     modal: {
       show: false,
       month: 0,
       value: 0,
       year: 0,
       add: true,
-      edit: false
-    }
+      edit: false,
+    },
   }),
-  created(){
-    this.getActualTime()
-    setInterval(() => { this.getActualTime()}, 10000)
-    this.initLocalClocks()
+  created() {
+    this.getActualTime();
+    setInterval(() => {
+      this.getActualTime();
+    }, 10000);
+    this.initLocalClocks();
   },
   methods: {
     getActualTime() {
-      this.today.hour = ('0' + new Date().getHours()).slice(-2)
-      this.today.minutes = ('0' + new Date().getMinutes()).slice(-2)
+      this.today.hour = ("0" + new Date().getHours()).slice(-2);
+      this.today.minutes = ("0" + new Date().getMinutes()).slice(-2);
     },
     initLocalClocks() {
       const date = new Date();
@@ -82,27 +113,27 @@ export default {
 
       const hands = [
         {
-          hand: 'clock__hour__container',
-          angle: (hours * 30) + (minutes / 2)
+          hand: "clock__hour__container",
+          angle: hours * 30 + minutes / 2,
         },
         {
-          hand: 'clock__minute__container',
-          angle: (minutes * 6) + (seconds / 10)
+          hand: "clock__minute__container",
+          angle: minutes * 6 + seconds / 10,
         },
         {
-          hand: 'clock__second__container',
-          angle: (seconds * 6)
-        }
-      ]
+          hand: "clock__second__container",
+          angle: seconds * 6,
+        },
+      ];
       hands.forEach((hand) => {
-        const elements = document.querySelectorAll('.' + hand.hand);
+        const elements = document.querySelectorAll("." + hand.hand);
         Array.from(elements).forEach((element) => {
-          element.style.transform = `rotateZ(${ hand.angle }deg)`;
-        })
-      })
-    }
-  }
-}
+          element.style.transform = `rotateZ(${hand.angle}deg)`;
+        });
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -114,7 +145,7 @@ export default {
 
 *::before,
 *::after {
-  content: '';
+  content: "";
   display: block;
   position: absolute;
 }
@@ -126,7 +157,7 @@ body {
 }
 .calendar {
   background: transparent;
-  box-shadow: 4px 4px 12px rgba(0,0,0,0.2);
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2);
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(3, 1fr);
@@ -156,37 +187,37 @@ body {
 .calendar-value {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 2.5vmin;
+  margin-top: 2vmin;
   justify-content: center;
 }
 .calendar-value p {
-  font-size: 3.5vmin;
+  font-size: 3vmin;
 }
 .calendar-month .title {
   font-weight: bold;
-  font-size: 3.2vmin;
+  font-size: 3vmin;
 }
 .calendar > div:nth-of-type(3n + 1) {
   background-color: #004481;
   color: #fff;
-  transition-delay: .4s;
+  transition-delay: 0.4s;
 }
 .calendar > div:nth-of-type(3n + 2) {
   background-color: #eaf9fa;
   color: #072146;
-  transition-delay: .1s;
+  transition-delay: 0.1s;
 }
 .calendar > div:nth-of-type(3n + 3) {
   background-color: #ffffff;
   color: #072146;
-  transition-delay: .3s;
+  transition-delay: 0.3s;
 }
 
 .clock {
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: #ABC !important;
+  background-color: #abc !important;
   padding: 0 !important;
 }
 .clock__container {
@@ -259,7 +290,7 @@ body {
   top: 10%;
   left: 50%;
   -webkit-transform: translatex(-50%);
-          transform: translatex(-50%);
+  transform: translatex(-50%);
   background-color: #fff;
 }
 .clock__second {
@@ -271,7 +302,7 @@ body {
   bottom: auto;
   right: auto;
   -webkit-animation: rotate 60s infinite steps(60);
-          animation: rotate 60s infinite steps(60);
+  animation: rotate 60s infinite steps(60);
 }
 .clock__second__container {
   width: 100%;
@@ -288,13 +319,14 @@ body {
   top: 5%;
   left: 50%;
   -webkit-transform: translatex(-50%);
-          transform: translatex(-50%);
+  transform: translatex(-50%);
   background-color: #fff;
 }
 .flip-all {
   transform: rotateY(180deg);
 }
-.flip-card-front, .flip-card-back {
+.flip-card-front,
+.flip-card-back {
   backface-visibility: hidden;
   height: 100%;
   position: absolute;
@@ -324,15 +356,14 @@ body {
 @-webkit-keyframes rotate {
   100% {
     -webkit-transform: rotateZ(360deg);
-            transform: rotateZ(360deg);
+    transform: rotateZ(360deg);
   }
 }
 
 @keyframes rotate {
   100% {
     -webkit-transform: rotateZ(360deg);
-            transform: rotateZ(360deg);
+    transform: rotateZ(360deg);
   }
 }
-
 </style>
