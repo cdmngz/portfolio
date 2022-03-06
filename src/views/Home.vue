@@ -59,7 +59,20 @@
               >
                 <v-card width="70vw">
                   <v-card>
-                    <v-img :src="require('@/assets/' + content.url + '.png')" />
+                    <v-img :src="require('@/assets/' + content.url + '.png')">
+                      <template v-slot:placeholder>
+                        <v-row
+                          class="fill-height ma-0"
+                          align="center"
+                          justify="center"
+                        >
+                          <v-progress-circular
+                            indeterminate
+                            color="primary"
+                          ></v-progress-circular>
+                        </v-row>
+                      </template>
+                    </v-img>
                     <v-card-text class="pb-0 text--primary text-left">
                       <div>{{ content.title }}</div>
                     </v-card-text>
